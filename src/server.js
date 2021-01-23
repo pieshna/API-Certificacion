@@ -10,7 +10,7 @@ import ProductosRoutes from "./routes/productos.routes";
 app.set('port', process.env.PORT || 3000)
 
 //Middlewares
-//app.use(json());
+app.use(json());
 
 //routes
 app.use(IndexRoutes);
