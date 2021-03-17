@@ -42,7 +42,7 @@ router.delete('/:id', async (req,res) =>{
     const db = await connect();
     const result = await db.collection('users').deleteOne({_id: ObjectID(id)});
     res.json({
-        messaje: `Usuario ${id} eliminado`,
+        messaje: 'producto '+ id +' eliminado',
         result
     })
 })
@@ -61,7 +61,7 @@ router.put('/:id', async (req,res)=>{
     const db = await connect();
     await db.collection('users').updateOne({_id: ObjectID(id)}, {$set: ActualizarProducto});
     res.json({
-        messaje: `Usuario ${id} actualizado`
+        messaje: 'producto '+id+' actualizado'
     })
 
 
