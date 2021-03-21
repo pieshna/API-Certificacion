@@ -7,61 +7,61 @@ const router = Router();
 import { connect } from "../database";
 import { ObjectID } from "mongodb";
 
-//ver todos los usuarios
+//ver todos los Proveedores
 router.get('/', async (req,res)=> {
     const db = await connect();
-    const result = await db.collection('users').find({}).toArray();
+    const result = await db.collection('proveedores').find({}).toArray();
     res.json(result);
 })
 
-//Crar usuarios
+//Crar proveedores
 router.post('/', async (req,res)=>{
     const db = await connect();
-    const usuario = {
+    const proveedor = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         correo: req.body.correo,
-        password: req.body.password,
+        empresa: req.body.empresa,
         imagen: req.body.imagen,
-        username: req.body.username
+        numero: req.body.numero
     }
-    const result = await db.collection('users').insertOne(usuario);
+    const result = await db.collection('proveedores').insertOne(proveedor);
     res.json(result.ops[0])
 })
 
-//buscamos usuarios por id
+//buscamos producto por id
 router.get('/:id',async (req,res)=>{
     const {id} = req.params;
     const db = await connect();
-    const result = await db.collection('users').findOne({_id: ObjectID(id)});
+    const result = await db.collection('proveedores').findOne({_id: ObjectID(id)});
     res.json(result);
 })
 
 router.delete('/:id', async (req,res) =>{
     const {id} = req.params;
     const db = await connect();
-    const result = await db.collection('users').deleteOne({_id: ObjectID(id)});
+    const result = await db.collection('proveedores').deleteOne({_id: ObjectID(id)});
     res.json({
-        messaje: `Usuario ${id} eliminado`,
+        messaje: `Proveedor ${id} eliminado`,
         result
     })
 })
 
-//editar usuarios por id
+//editar producto por id
 router.put('/:id', async (req,res)=>{
     const {id} =req.params;
-    const ActualizarProducto = {
+    const ActualizarProveedor = {
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         correo: req.body.correo,
-        password: req.body.password,
+        empresa: req.body.empresa,
         imagen: req.body.imagen,
-        username: req.body.username
+        numero: req.body.numero
     }
     const db = await connect();
-    await db.collection('users').updateOne({_id: ObjectID(id)}, {$set: ActualizarProducto});
+    await db.collection('proveedores').updateOne({_id: ObjectID(id)}, {$set: ActualizarProveedor});
     res.json({
-        messaje: `Usuario ${id} actualizado`
+        messaje: `Proveedor ${id} actualizado`
     })
 
 
