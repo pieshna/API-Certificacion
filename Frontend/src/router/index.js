@@ -20,12 +20,20 @@ const routes = [
   {
     path: '/productos',
     name: 'Productos',
-    component: ()=>import('../views/productos/Productos.vue')
+    component: ()=>import('../views/productos/Productos.vue'),
+    meta:{requiereAuth:true}
   },
   {
     path: '/productos/agregar',
     name: 'NuevoProducto',
-    component: ()=>import('../views/productos/NuevoProducto.vue')
+    component: ()=>import('../views/productos/NuevoProducto.vue'),
+    meta:{requiereAuth:true}
+  },
+  {
+    path: '/usuarios/',
+    name: 'Listar',
+    component: ()=>import('../views/usuarios/listar.vue'),
+    meta:{requiereAuth:true}
   },
   {
     path: '/login',
