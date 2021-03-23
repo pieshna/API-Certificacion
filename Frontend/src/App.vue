@@ -25,7 +25,8 @@
           </ul>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/login">Iniciar sesion</router-link>
+          <router-link class="nav-link" to="/login" v-if="token===null">Iniciar sesion</router-link>
+          <a class="nav-link" v-if="token!=null" @click="cerrarSesion" >Cerrar sesion</a>
         </li>
       </ul>
     </div>
@@ -40,7 +41,7 @@
 import {mapActions,mapState} from 'vuex'
 export default {
   methods: {
-    ...mapActions(['leerToken'])
+    ...mapActions(['leerToken','cerrarSesion'])
   },
   created() {
     this.leerToken();
@@ -52,12 +53,8 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+h1{
   text-align: center;
-  color: #2c3e50;
 }
 
 

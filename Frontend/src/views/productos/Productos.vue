@@ -1,6 +1,7 @@
 <template>
 <br>
 <h1>Lista de Productos</h1>
+{{token}}
 <hr> <br>
   <div class="container p-4">
     <div class="row justify-content-center">
@@ -41,7 +42,7 @@
 </template>
 
 <script>
-
+import { mapState} from 'vuex'
 export default {
     name:'Productos',
   data(){
@@ -58,7 +59,11 @@ export default {
   },
   methods: {
     async getRepuestos(){
-      await this.axios.get(`${this.baseURL}/product`)
+      await this.axios.get(`${this.baseURL}/product`,{
+        headers:{
+          'auth-token': this.token
+        }
+      })
       .then((response)=> {
         this.repuestos=response.data
         console.log(response.data)
@@ -83,6 +88,7 @@ export default {
       }
   },
   computed:{
+    ...mapState(['token']),
     displayedRepuestos(){
       return this.paginate(this.repuestos);
       }

@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import router from '../router'
 
 export default createStore({
   state: {
@@ -15,11 +16,12 @@ export default createStore({
       console.log(usuario)
       try {
         const resDB = await axios.post('http://localhost:3000/api/user/login',usuario)
-        console.log('token',resDB.data.token)
+        //console.log('token',resDB.data.token)
 
         commit('setToken',resDB.data.token)
 
         localStorage.setItem('token',resDB.data.token)
+        router.push('/')
 
       } catch (error) {
         console.log('error: ', error)
@@ -31,6 +33,11 @@ export default createStore({
       }else{
         commit('setToken',null)
       }
+    },
+    cerrarSesion({commit}){
+      localStorage.removeItem('token')
+      commit('setToken',null)
+      router.push('/')
     }
   },
   modules: {
