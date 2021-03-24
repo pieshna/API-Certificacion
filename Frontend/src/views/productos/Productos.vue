@@ -1,7 +1,6 @@
 <template>
 <br>
 <h1>Lista de Productos</h1>
-{{token}}
 <hr> <br>
   <div class="container p-4">
     <div class="row justify-content-center">
@@ -9,13 +8,16 @@
         <div class="card">
           <img v-bind:src="repuesto.imagen" class="card-img-top">
           <div class="card-body">
-            <h5>{{repuesto.nombre}}</h5>
+            <h5>{{repuesto.name}}</h5>
             
               <p>Descripcion: {{repuesto.descripcion}}</p> 
               <p>Marca: {{repuesto.marca}}</p>
               <p>Cantidad: {{repuesto.cantidad}}</p>
-              <p>Precio: {{repuesto.precio}}</p>
+              <p>Precio: {{repuesto.precioVenta}}</p>
               <p>Precio de Compra: {{repuesto.precioCompra}}</p>
+              <!--<button >Detalles</button><br><br>-->
+              <button class="btn btn-danger separar" @click="eliminarItem(repuesto._id)">eliminar</button>
+              <router-link class="btn btn-success" v-bind:to="'/productos/edit/'+repuesto._id">editar</router-link>
             
           </div>
         </div>
@@ -43,6 +45,7 @@
 
 <script>
 import { mapState} from 'vuex'
+import axios from 'axios'
 export default {
     name:'Productos',
   data(){
@@ -85,6 +88,29 @@ export default {
         for (let index = 1; index <= numerodepaginas; index++) {
           this.pages.push(index)
         }
+      },
+      async eliminarItem(id){
+        try {
+            await axios.delete(`http://localhost:3000/api/product/${id}`,{
+                    headers:{
+                    'auth-token': this.token,
+                    }
+                }).then((response)=> {
+                    this.producto=response.data
+                    //console.log('eliminacion',response.data);
+                    //console.log('repuestos antes:',this.repuestos);
+                    for (let index = 1; index <= this.repuestos.length; index++) {
+                      if (this.repuestos[index-1]._id==id) {
+                        this.repuestos.pop(index)
+                      }
+                    }
+                    //console.log('repuestos despues:',this.repuestos);
+                }).catch((error)=>{
+                console.log(error)
+                });
+        } catch (error) {
+          
+        }
       }
   },
   computed:{
@@ -113,5 +139,8 @@ export default {
 .card-body{
   background-color: rgb(231, 231, 231);
   text-align: center;
+}
+.separar{
+  margin-right: 0.5rem;
 }
 </style>

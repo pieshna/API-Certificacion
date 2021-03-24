@@ -1,10 +1,10 @@
 <template>
 <br>
     <div class="container">
-        <h1>Ingresar Producto</h1>
+        <h1>Editar Producto</h1>
         <hr>
         <br>
-        <form @submit.prevent="enviar(producto)" enctype="multipart/form-data">
+        <form @submit.prevent="enviar(producto)">
             <div class="row">
                 <div class="form-group col-md-6">
                     <label>Nombre</label>
@@ -22,6 +22,7 @@
             </div>
             <div class="form-group col-md-6">
                 <img :src="hotImage.urlImagen" v-if="hotImage.urlImagen!=null">
+                <img :src="producto.imagen" v-if="hotImage.urlImagen===null">
                 <br>
                 <label>Imagen</label>
                 <br>
@@ -46,31 +47,31 @@
         <br>
         <div class="row justify-content-between">
             <div class="form-group col-md-2">
-            <button class="btn btn-block btn-danger">Cancelar</button>
+                <router-link to="/productos" class="btn btn-block btn-danger">Cancelar</router-link>
             </div>
             <div class="form-group col-md-2">
-            <button class="btn btn-block btn-success" type="submit">Agregar</button>
+            <button class="btn btn-block btn-success" type="submit">Guardar</button>
             </div>
         </div>
         </form>
-        {{producto}}
-        {{token}}
     </div>
+        
 </template>
 <script>
 import {mapState} from 'vuex'
 import axios from 'axios'
 export default {
-    name:'NuevoProducto',
+    props:['id'],
+    name:'EditarProducto',
     data() {
         return {
             producto:{
-                name:'llanta negra',
-                marca:'laquesea sa',
-                descripcion:'llanta para moto',
-                precioCompra:'300',
-                precioVenta:'400',
-                cantidad:'10',
+                name:'',
+                marca:'',
+                descripcion:'',
+                precioCompra:'',
+                precioVenta:'',
+                cantidad:'',
                 imagen:''
             },
             hotImage:{
@@ -79,7 +80,28 @@ export default {
             }
         }
     },
+    created() {
+        this.recibir(this.id)
+    },
     methods: {
+        async recibir(id){
+            try {
+                //console.log(id);
+                await axios.get(`http://localhost:3000/api/product/${id}`,{
+                    headers:{
+                    'auth-token': this.token,
+                    }
+                }).then((response)=> {
+                    this.producto=response.data
+                }).catch((error)=>{
+                console.log(error)
+                });
+                
+                console.log('Producto',this.producto);
+            } catch (error) {
+                console.log(error);
+            }
+        },
         async enviar(producto){
         try {
             let dataForm=new FormData();
@@ -99,7 +121,7 @@ export default {
         },
         async subirTodo(producto){
             try {
-                const res=await axios.post('http://localhost:3000/api/product/',producto,{
+                const res=await axios.put(`http://localhost:3000/api/product/${this.id}`,producto,{
                     headers:{
                     'auth-token': this.token,
                     }
@@ -129,7 +151,6 @@ export default {
     
 }
 </script>
-
 <style scoped>
 img{
     width: 10rem;

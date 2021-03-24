@@ -30,6 +30,13 @@ const routes = [
     meta:{requiereAuth:true}
   },
   {
+    path: '/productos/edit/:id',
+    name: 'EditarProducto',
+    component: ()=>import('../views/productos/EditarProducto.vue'),
+    meta:{requiereAuth:true},
+    props:true
+  },
+  {
     path: '/usuarios/',
     name: 'Listar',
     component: ()=>import('../views/usuarios/listar.vue'),
