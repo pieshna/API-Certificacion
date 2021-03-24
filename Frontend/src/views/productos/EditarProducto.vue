@@ -1,16 +1,13 @@
 <template>
   <div class="body">
       <br>
-    <h1>Ingresar Producto</h1>
+    <h1>Actualizar Producto</h1>
     <hr>
     <br>
     <form @submit.prevent="enviar(producto)" enctype="multipart/form-data">
       <div class="row justify-content-center">
-        <img :src="hotImage.urlImagen" v-if="hotImage.urlImagen != null" />
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1200px-Imagen_no_disponible.svg.png"
-          v-if="hotImage.urlImagen == null"
-        />
+        <img :src="producto.imagen" alt="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1200px-Imagen_no_disponible.svg.png" />
+       
         <br>
       </div>
       <div class="container cuerpo">
@@ -106,16 +103,17 @@
 import { mapState } from "vuex";
 import axios from "axios";
 export default {
-  name: "NuevoProducto",
+  props: ["id"],
+  name: "EditarProducto",
   data() {
     return {
       producto: {
-        name: "llanta negra",
-        marca: "laquesea sa",
-        descripcion: "llanta para moto",
-        precioCompra: "300",
-        precioVenta: "400",
-        cantidad: "10",
+        name: "",
+        marca: "",
+        descripcion: "",
+        precioCompra: "",
+        precioVenta: "",
+        cantidad: "",
         imagen: "",
       },
       hotImage: {
@@ -124,7 +122,31 @@ export default {
       },
     };
   },
+  created() {
+    this.recibir(this.id);
+  },
   methods: {
+    async recibir(id) {
+      try {
+        //console.log(id);
+        await axios
+          .get(`http://localhost:3000/api/product/${id}`, {
+            headers: {
+              "auth-token": this.token,
+            },
+          })
+          .then((response) => {
+            this.producto = response.data;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
+        console.log("Producto", this.producto);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async enviar(producto) {
       try {
         let dataForm = new FormData();
@@ -147,7 +169,7 @@ export default {
     async subirTodo(producto) {
       try {
         const res = await axios
-          .post("http://localhost:3000/api/product/", producto, {
+          .put(`http://localhost:3000/api/product/${this.id}`, producto, {
             headers: {
               "auth-token": this.token,
             },
@@ -177,7 +199,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 img {
   border: solid 1px;
@@ -187,35 +208,37 @@ img {
   position: relative;
   z-index: 2;
 }
-.cuerpo{
-    z-index: 1;
-    margin-top: -3rem;
-    border: solid 1px;
-    border-radius: 1rem;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
+.cuerpo {
+  z-index: 1;
+  margin-top: -3rem;
+  border: solid 1px;
+  border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, .15);
-  
+  background-color: rgba(255, 255, 255, 0.15);
+
   backdrop-filter: blur(5px);
 }
-.body{
-    background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3) no-repeat;
+.body {
+  background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3)
+    no-repeat;
   background-size: cover;
   display: grid;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
-.col-md-6,.col-md-4{
-    margin-bottom: 1rem;
+.col-md-6,
+.col-md-4 {
+  margin-bottom: 1rem;
 }
-.col-md-2{
-    max-width: 5rem;
-    margin-bottom: 1rem;
-    padding: 0rem;
-    margin-left: 1rem;
+.col-md-2 {
+  max-width: 5rem;
+  margin-bottom: 1rem;
+  padding: 0rem;
+  margin-left: 1rem;
 }
-.derecha{
-    margin-right: 2rem;
+.derecha {
+  margin-right: 2rem;
 }
 </style>
