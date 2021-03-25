@@ -109,6 +109,7 @@ export default {
   name: "NuevoProducto",
   data() {
     return {
+      baseURL: 'http://localhost:3000/api',
       producto: {
         name: "llanta negra",
         marca: "laquesea sa",
@@ -131,7 +132,7 @@ export default {
         dataForm.append("img", this.hotImage.imagen);
         console.log(dataForm);
         axios
-          .post("http://localhost:3000/api/imagen", dataForm, {
+          .post(`${this.baseURL}/imagen`, dataForm, {
             headers: {
               "auth-token": this.token,
             },
@@ -147,7 +148,7 @@ export default {
     async subirTodo(producto) {
       try {
         const res = await axios
-          .post("http://localhost:3000/api/product/", producto, {
+          .post(`${this.baseURL}/product/`, producto, {
             headers: {
               "auth-token": this.token,
             },
@@ -198,14 +199,6 @@ img {
   
   backdrop-filter: blur(5px);
 }
-.body{
-    background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3) no-repeat;
-  background-size: cover;
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
 .col-md-6,.col-md-4{
     margin-bottom: 1rem;
 }
@@ -217,5 +210,8 @@ img {
 }
 .derecha{
     margin-right: 2rem;
+}
+.justify-content-center{
+  max-width: 100%;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="body">
       <br>
-    <h1>Actualizar Producto</h1>
+    <h1>Actualizar Usuario</h1>
     <hr>
     <br>
     <form @submit.prevent="enviar(producto)" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
       <br/>
       <br/>
         <div class="row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Nombre</label>
             <input
               type="text"
@@ -24,24 +24,15 @@
               v-model="producto.name"
             />
           </div>
-          <div class="form-group col-md-6">
-            <label>Marca</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Ingrese la marca del producto"
-              v-model="producto.marca"
-            />
-          </div>
         </div>
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Descripcion</label>
+            <label>Username</label>
             <input
               type="text"
               class="form-control"
               placeholder="Ingrese la descripcion del producto"
-              v-model="producto.descripcion"
+              v-model="producto.username"
             />
           </div>
           <div class="form-group col-md-6">
@@ -56,31 +47,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-4">
-            <label>Precio de Compra</label>
+          <div class="form-group col-md-6">
+            <label>Correo</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
               placeholder="Ingrese el precio de compra"
-              v-model="producto.precioCompra"
+              v-model="producto.email"
             />
           </div>
-          <div class="form-group col-md-4">
-            <label>Precio de Venta</label>
+          <div class="form-group col-md-6">
+            <label>Contraseña</label>
             <input
-              type="text"
+              type="password"
               class="form-control"
               placeholder="Ingrese el precio de venta"
-              v-model="producto.precioVenta"
-            />
-          </div>
-          <div class="form-group col-md-4">
-            <label>Cantidad</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Cantidad de productos a ingresar"
-              v-model="producto.cantidad"
+              v-model="producto.password"
             />
           </div>
         </div>
@@ -104,17 +86,15 @@ import { mapState } from "vuex";
 import axios from "axios";
 export default {
   props: ["id"],
-  name: "EditarProducto",
+  name: "EditarUsuario",
   data() {
     return {
       baseURL: 'http://localhost:3000/api',
       producto: {
         name: "",
-        marca: "",
-        descripcion: "",
-        precioCompra: "",
-        precioVenta: "",
-        cantidad: "",
+        username: "",
+        email: "",
+        password: "",
         imagen: "",
       },
       hotImage: {
@@ -129,9 +109,9 @@ export default {
   methods: {
     async recibir(id) {
       try {
-        //console.log(id);
+        console.log(`${this.baseURL}/user/${id}`);
         await axios
-          .get(`${this.baseURL}/product/${id}`, {
+          .get(`${this.baseURL}/user/${id}`, {
             headers: {
               "auth-token": this.token,
             },
@@ -143,7 +123,7 @@ export default {
             console.log(error);
           });
 
-        console.log("Producto", this.producto);
+        console.log("Usuario", this.producto);
       } catch (error) {
         console.log(error);
       }
@@ -175,7 +155,7 @@ export default {
     async subirTodo(producto) {
       try {
         const res = await axios
-          .put(`${this.baseURL}/product/${this.id}`, producto, {
+          .put(`${this.baseURL}/user/${this.id}`, producto, {
             headers: {
               "auth-token": this.token,
             },
@@ -183,7 +163,7 @@ export default {
           .then((response) => {
             this.repuestos = response.data;
             console.log(response.data);
-            this.$router.push("/productos");
+            this.$router.push("/usuarios");
           })
           .catch((error) => {
             console.log(error);
@@ -225,6 +205,7 @@ img {
 
   backdrop-filter: blur(5px);
 }
+
 .col-md-6,
 .col-md-4 {
   margin-bottom: 1rem;

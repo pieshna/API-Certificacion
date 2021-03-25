@@ -1,22 +1,23 @@
 <template>
   <div class="home" v-if="token===null">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <login/>
   </div>
   <div class="home" v-if="token!=null">
-    <h1>logueado</h1>
+    <Logued/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import login from '@/views/usuarios/login.vue'
+import Logued from '@/views/Logued.vue'
 import {mapState} from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
+    Logued,
+    login
   },
   computed:{
     ...mapState(['token'])

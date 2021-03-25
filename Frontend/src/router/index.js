@@ -37,10 +37,42 @@ const routes = [
     props:true
   },
   {
-    path: '/usuarios/',
+    path: '/proveedor',
+    name: 'Proveedores',
+    component: ()=>import('../views/proveedores/Proveedores.vue'),
+    meta:{requiereAuth:true}
+  },
+  {
+    path: '/proveedor/agregar',
+    name: 'NuevoProveedor',
+    component: ()=>import('../views/proveedores/NuevoProveedor.vue'),
+    meta:{requiereAuth:true}
+  },
+  {
+    path: '/proveedor/edit/:id',
+    name: 'EditarProveedor',
+    component: ()=>import('../views/proveedores/EditarProveedor.vue'),
+    meta:{requiereAuth:true},
+    props:true
+  },
+  {
+    path: '/usuarios',
     name: 'Listar',
     component: ()=>import('../views/usuarios/listar.vue'),
     meta:{requiereAuth:true}
+  },
+  {
+    path: '/usuarios/agregar',
+    name: 'NuevoUsuario',
+    component: ()=>import('../views/usuarios/NuevoUsuario.vue'),
+    meta:{requiereAuth:true}
+  },
+  {
+    path: '/usuarios/edit/:id',
+    name: 'EditarUsuario',
+    component: ()=>import('../views/usuarios/EditarUsuario.vue'),
+    meta:{requiereAuth:true},
+    props:true
   },
   {
     path: '/login',
