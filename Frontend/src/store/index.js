@@ -13,7 +13,7 @@ export default createStore({
   },
   actions: {
     async login({commit},usuario){
-      console.log(usuario)
+      //console.log(usuario)
       try {
         const resDB = await axios.post('http://localhost:3000/api/user/login',usuario)
         //console.log('token',resDB.data.token)

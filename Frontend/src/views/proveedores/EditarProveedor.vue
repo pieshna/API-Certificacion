@@ -1,7 +1,7 @@
 <template>
   <div class="body">
       <br>
-    <h1>Actualizar Producto</h1>
+    <h1>Actualizar Proveedor</h1>
     <hr>
     <br>
     <form @submit.prevent="enviar(producto)" enctype="multipart/form-data">
@@ -21,27 +21,27 @@
               type="text"
               class="form-control"
               placeholder="Ingrese el nombre del producto"
-              v-model="producto.name"
+              v-model="producto.nombre"
             />
           </div>
           <div class="form-group col-md-6">
-            <label>Marca</label>
+            <label>Apellido</label>
             <input
               type="text"
               class="form-control"
               placeholder="Ingrese la marca del producto"
-              v-model="producto.marca"
+              v-model="producto.apellido"
             />
           </div>
         </div>
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Descripcion</label>
+            <label>Correo</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
               placeholder="Ingrese la descripcion del producto"
-              v-model="producto.descripcion"
+              v-model="producto.correo"
             />
           </div>
           <div class="form-group col-md-6">
@@ -56,33 +56,25 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-4">
-            <label>Precio de Compra</label>
+          <div class="form-group col-md-6">
+            <label>Empresa</label>
             <input
               type="text"
               class="form-control"
               placeholder="Ingrese el precio de compra"
-              v-model="producto.precioCompra"
+              v-model="producto.empresa"
             />
           </div>
-          <div class="form-group col-md-4">
-            <label>Precio de Venta</label>
+          <div class="form-group col-md-6">
+            <label>Contacto</label>
             <input
               type="text"
               class="form-control"
               placeholder="Ingrese el precio de venta"
-              v-model="producto.precioVenta"
+              v-model="producto.contacto"
             />
           </div>
-          <div class="form-group col-md-4">
-            <label>Cantidad</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Cantidad de productos a ingresar"
-              v-model="producto.cantidad"
-            />
-          </div>
+          
         </div>
         <br />
         <div class="row justify-content-between">
@@ -104,17 +96,16 @@ import { mapState } from "vuex";
 import axios from "axios";
 export default {
   props: ["id"],
-  name: "EditarProducto",
+  name: "EditarProveedor",
   data() {
     return {
       baseURL: 'http://localhost:3000/api',
       producto: {
-        name: "",
-        marca: "",
-        descripcion: "",
-        precioCompra: "",
-        precioVenta: "",
-        cantidad: "",
+        nombre: "",
+        apellido: "",
+        correo: "",
+        empresa: "",
+        contacto: "",
         imagen: "",
       },
       hotImage: {
@@ -131,7 +122,7 @@ export default {
       try {
         //console.log(id);
         await axios
-          .get(`${this.baseURL}/product/${id}`, {
+          .get(`${this.baseURL}/proveedor/${id}`, {
             headers: {
               "auth-token": this.token,
             },
@@ -143,7 +134,7 @@ export default {
             console.log(error);
           });
 
-        console.log("Producto", this.producto);
+        console.log("Proveedor", this.producto);
       } catch (error) {
         console.log(error);
       }
@@ -151,7 +142,6 @@ export default {
     async enviar(producto) {
       try {
         if(this.hotImage.urlImagen===null){
-          console.log("no se cargo nueva imagen imagen");
           this.subirTodo(producto)
         }else{
         let dataForm = new FormData();
@@ -175,7 +165,7 @@ export default {
     async subirTodo(producto) {
       try {
         const res = await axios
-          .put(`${this.baseURL}/product/${this.id}`, producto, {
+          .put(`${this.baseURL}/proveedor/${this.id}`, producto, {
             headers: {
               "auth-token": this.token,
             },
@@ -183,7 +173,7 @@ export default {
           .then((response) => {
             this.repuestos = response.data;
             console.log(response.data);
-            this.$router.push("/productos");
+            this.$router.push("/proveedor");
           })
           .catch((error) => {
             console.log(error);

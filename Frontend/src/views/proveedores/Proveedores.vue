@@ -1,6 +1,6 @@
 <template>
 <br>
-<h1>Lista de Productos</h1>
+<h1>Lista de Proveedores</h1>
 <hr> <br>
   <div class="container p-4">
     <div class="row justify-content-center">
@@ -8,16 +8,13 @@
         <div class="card">
           <img v-bind:src="repuesto.imagen" class="card-img-top">
           <div class="card-body">
-            <h5>{{repuesto.name}}</h5>
-            
-              <p>Descripcion: {{repuesto.descripcion}}</p> 
-              <p>Marca: {{repuesto.marca}}</p>
-              <p>Cantidad: {{repuesto.cantidad}}</p>
-              <p>Precio: {{repuesto.precioVenta}}</p>
-              <p>Precio de Compra: {{repuesto.precioCompra}}</p>
+            <h5>{{repuesto.nombre}} {{repuesto.apellido}}</h5>
+              <p>Correo: {{repuesto.correo}}</p>
+              <p>Empresa: {{repuesto.empresa}}</p>
+              <p>Contacto: {{repuesto.contacto}}</p>
               <!--<button >Detalles</button><br><br>-->
               <button class="btn btn-danger separar" @click="eliminarItem(repuesto._id)">eliminar</button>
-              <router-link class="btn btn-success" v-bind:to="'/productos/edit/'+repuesto._id">editar</router-link>
+              <router-link class="btn btn-success" v-bind:to="'/proveedor/edit/'+repuesto._id">editar</router-link>
             
           </div>
         </div>
@@ -47,7 +44,7 @@
 import { mapState} from 'vuex'
 import axios from 'axios'
 export default {
-    name:'Productos',
+    name:'Proveedor',
   data(){
     return{ 
       repuestos: [],
@@ -62,7 +59,7 @@ export default {
   },
   methods: {
     async getRepuestos(){
-      await this.axios.get(`${this.baseURL}/product`,{
+      await this.axios.get(`${this.baseURL}/proveedor`,{
         headers:{
           'auth-token': this.token
         }
@@ -91,7 +88,7 @@ export default {
       },
       async eliminarItem(id){
         try {
-            await axios.delete(`${this.baseURL}/product/${id}`,{
+            await axios.delete(`${this.baseURL}/proveedor/${id}`,{
                     headers:{
                     'auth-token': this.token,
                     }

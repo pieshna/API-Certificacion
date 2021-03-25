@@ -1,13 +1,16 @@
 <template>
   <div class="body">
       <br>
-    <h1>Actualizar Producto</h1>
+    <h1>Nuevo Usuario</h1>
     <hr>
     <br>
     <form @submit.prevent="enviar(producto)" enctype="multipart/form-data">
       <div class="row justify-content-center">
-        <img :src="producto.imagen" v-if="hotImage.urlImagen==null"/>
         <img :src="hotImage.urlImagen" v-if="hotImage.urlImagen != null" />
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Imagen_no_disponible.svg/1200px-Imagen_no_disponible.svg.png"
+          v-if="hotImage.urlImagen == null"
+        />
         <br>
       </div>
       <div class="container cuerpo">
@@ -15,7 +18,7 @@
       <br/>
       <br/>
         <div class="row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-12">
             <label>Nombre</label>
             <input
               type="text"
@@ -24,24 +27,15 @@
               v-model="producto.name"
             />
           </div>
-          <div class="form-group col-md-6">
-            <label>Marca</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Ingrese la marca del producto"
-              v-model="producto.marca"
-            />
-          </div>
         </div>
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Descripcion</label>
+            <label>Username</label>
             <input
               type="text"
               class="form-control"
               placeholder="Ingrese la descripcion del producto"
-              v-model="producto.descripcion"
+              v-model="producto.username"
             />
           </div>
           <div class="form-group col-md-6">
@@ -56,31 +50,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-4">
-            <label>Precio de Compra</label>
+          <div class="form-group col-md-6">
+            <label>Correo</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
               placeholder="Ingrese el precio de compra"
-              v-model="producto.precioCompra"
+              v-model="producto.email"
             />
           </div>
-          <div class="form-group col-md-4">
-            <label>Precio de Venta</label>
+          <div class="form-group col-md-6">
+            <label>Contraseña</label>
             <input
-              type="text"
+              type="password"
               class="form-control"
               placeholder="Ingrese el precio de venta"
-              v-model="producto.precioVenta"
-            />
-          </div>
-          <div class="form-group col-md-4">
-            <label>Cantidad</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Cantidad de productos a ingresar"
-              v-model="producto.cantidad"
+              v-model="producto.password"
             />
           </div>
         </div>
@@ -103,19 +88,17 @@
 import { mapState } from "vuex";
 import axios from "axios";
 export default {
-  props: ["id"],
-  name: "EditarProducto",
+  name: "NuevoUsuario",
   data() {
     return {
       baseURL: 'http://localhost:3000/api',
       producto: {
-        name: "",
-        marca: "",
-        descripcion: "",
-        precioCompra: "",
-        precioVenta: "",
-        cantidad: "",
+        name: "Marco tulio",
+        username: "mtuliop",
+        email: "marcotulio@gmail.com",
+        password: "hola1234",
         imagen: "",
+        rol:"admin"
       },
       hotImage: {
         urlImagen: null,
@@ -123,37 +106,9 @@ export default {
       },
     };
   },
-  created() {
-    this.recibir(this.id);
-  },
   methods: {
-    async recibir(id) {
-      try {
-        //console.log(id);
-        await axios
-          .get(`${this.baseURL}/product/${id}`, {
-            headers: {
-              "auth-token": this.token,
-            },
-          })
-          .then((response) => {
-            this.producto = response.data;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-        console.log("Producto", this.producto);
-      } catch (error) {
-        console.log(error);
-      }
-    },
     async enviar(producto) {
       try {
-        if(this.hotImage.urlImagen===null){
-          console.log("no se cargo nueva imagen imagen");
-          this.subirTodo(producto)
-        }else{
         let dataForm = new FormData();
         dataForm.append("img", this.hotImage.imagen);
         console.log(dataForm);
@@ -167,7 +122,6 @@ export default {
             this.producto.imagen = `/storage/img/${response.data.filename}`;
             this.subirTodo(producto);
           });
-        }
       } catch (err) {
         console.log(err);
       }
@@ -175,7 +129,7 @@ export default {
     async subirTodo(producto) {
       try {
         const res = await axios
-          .put(`${this.baseURL}/product/${this.id}`, producto, {
+          .post(`${this.baseURL}/user/register`, producto, {
             headers: {
               "auth-token": this.token,
             },
@@ -183,7 +137,7 @@ export default {
           .then((response) => {
             this.repuestos = response.data;
             console.log(response.data);
-            this.$router.push("/productos");
+            this.$router.push("/usuarios");
           })
           .catch((error) => {
             console.log(error);
@@ -205,6 +159,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 img {
   border: solid 1px;
@@ -214,28 +169,30 @@ img {
   position: relative;
   z-index: 2;
 }
-.cuerpo {
-  z-index: 1;
-  margin-top: -3rem;
-  border: solid 1px;
-  border-radius: 1rem;
-  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+.cuerpo{
+    z-index: 1;
+    margin-top: -3rem;
+    border: solid 1px;
+    border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .2); 
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.15);
-
+  background-color: rgba(255, 255, 255, .15);
+  
   backdrop-filter: blur(5px);
 }
-.col-md-6,
-.col-md-4 {
-  margin-bottom: 1rem;
+.col-md-6,.col-md-4{
+    margin-bottom: 1rem;
 }
-.col-md-2 {
-  max-width: 5rem;
-  margin-bottom: 1rem;
-  padding: 0rem;
-  margin-left: 1rem;
+.col-md-2{
+    max-width: 5rem;
+    margin-bottom: 1rem;
+    padding: 0rem;
+    margin-left: 1rem;
 }
-.derecha {
-  margin-right: 2rem;
+.derecha{
+    margin-right: 2rem;
+}
+.justify-content-center{
+  max-width: 100%;
 }
 </style>
