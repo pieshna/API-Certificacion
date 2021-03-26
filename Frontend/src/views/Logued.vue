@@ -7,19 +7,19 @@
           <router-link to="/productos" class="col-md-3">
         <div>
           <span>Repuestos</span><br>
-          <img src="https://www.flaticon.es/svg/vstatic/svg/627/627495.svg?token=exp=1616666349~hmac=6ec087d896860cd807c0dd61c2e5f9a2">
+          <img src="/storage/img/img1.svg">
         </div>
           </router-link>
           <router-link to="/usuarios" class="col-md-3">
         <div>
           <span>Usuarios</span><br>
-          <img src="https://www.flaticon.es/svg/vstatic/svg/560/560216.svg?token=exp=1616666180~hmac=741f5e82494db716dc93082c65d473e8">
+          <img src="/storage/img/img2.svg">
         </div>
           </router-link>
           <router-link to="/proveedor" class="col-md-3">
         <div>
           <span>Proveedores</span><br>
-          <img src="https://www.flaticon.es/svg/vstatic/svg/2942/2942322.svg?token=exp=1616666059~hmac=5bdf3c76b44ea199d1affa7215d883ea">
+          <img src="/storage/img/img3.svg">
         </div>
           </router-link>
       </div>

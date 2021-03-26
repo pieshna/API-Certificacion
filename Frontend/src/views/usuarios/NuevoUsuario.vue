@@ -23,7 +23,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el nombre del producto"
+              placeholder="Ingrese su nombre"
               v-model="producto.name"
             />
           </div>
@@ -34,7 +34,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese la descripcion del producto"
+              placeholder="Ingrese su username"
               v-model="producto.username"
             />
           </div>
@@ -55,7 +55,7 @@
             <input
               type="email"
               class="form-control"
-              placeholder="Ingrese el precio de compra"
+              placeholder="Ingrese su correo"
               v-model="producto.email"
             />
           </div>
@@ -64,7 +64,7 @@
             <input
               type="password"
               class="form-control"
-              placeholder="Ingrese el precio de venta"
+              placeholder="Ingrese su Contraseña"
               v-model="producto.password"
             />
           </div>
@@ -93,10 +93,10 @@ export default {
     return {
       baseURL: 'http://localhost:3000/api',
       producto: {
-        name: "Marco tulio",
-        username: "mtuliop",
-        email: "marcotulio@gmail.com",
-        password: "hola1234",
+        name: "",
+        username: "",
+        email: "",
+        password: "",
         imagen: "",
         rol:"admin"
       },

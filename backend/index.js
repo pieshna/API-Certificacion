@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
 const cors = require('cors');
+const path = require('path')
 require('dotenv').config()
 
 const app = express();
@@ -31,12 +32,14 @@ const authRoutes = require('./routes/auth.routes');
 const logued = require('./routes/dashboard.routes');
 const productRoutes=require('./routes/productos.routes')
 const proveedoresRoutes=require('./routes/proveedores.routes')
+const genFaker = require('./routes/faker.routes')
 
 //import controller
 const validarToken= require('./controller/validate-token')
 const upload=require('./controller/save-image')
 
 // route middlewares
+app.use('/api/faker', genFaker)
 app.use('/api/user', authRoutes);
 app.use('/api/product',validarToken, productRoutes);
 app.use('/api/proveedor',validarToken, proveedoresRoutes);
@@ -50,6 +53,10 @@ app.post('/api/imagen',upload.single('img'),(req,res,next)=>{
     }
       res.send(file)
 })
+app.use(express.static(path.join(__dirname, '../backend/dist/')));
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, '../backend/dist/index.html'));
+  });
 
 // Middleware para Vue.js router modo history esto va solo si ponemos el frontend en el mismo servidor que el backend
 const history = require('connect-history-api-fallback');
