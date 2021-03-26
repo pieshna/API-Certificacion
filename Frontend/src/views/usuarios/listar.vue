@@ -139,4 +139,7 @@ export default {
 .separar{
   margin-right: 0.5rem;
 }
+.col-md-3{
+  margin-bottom: 1rem;
+}
 </style>

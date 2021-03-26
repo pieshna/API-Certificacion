@@ -23,28 +23,28 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el nombre del producto"
-              v-model="producto.name"
+              placeholder="Ingrese el nombre del proveedor"
+              v-model="producto.nombre"
             />
           </div>
           <div class="form-group col-md-6">
-            <label>Marca</label>
+            <label>Apellido</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese la marca del producto"
-              v-model="producto.marca"
+              placeholder="Ingrese el apellido del proveedor"
+              v-model="producto.apellido"
             />
           </div>
         </div>
         <div class="row">
           <div class="form-group col-md-6">
-            <label>Descripcion</label>
+            <label>Correo</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
-              placeholder="Ingrese la descripcion del producto"
-              v-model="producto.descripcion"
+              placeholder="Ingrese el correo del proveedor"
+              v-model="producto.correo"
             />
           </div>
           <div class="form-group col-md-6">
@@ -59,31 +59,22 @@
           </div>
         </div>
         <div class="row">
-          <div class="form-group col-md-4">
-            <label>Precio de Compra</label>
+          <div class="form-group col-md-6">
+            <label>Empresa</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el precio de compra"
-              v-model="producto.precioCompra"
+              placeholder="Ingrese el nombre de la empresa"
+              v-model="producto.empresa"
             />
           </div>
-          <div class="form-group col-md-4">
-            <label>Precio de Venta</label>
+          <div class="form-group col-md-6">
+            <label>Contacto</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el precio de venta"
-              v-model="producto.precioVenta"
-            />
-          </div>
-          <div class="form-group col-md-4">
-            <label>Cantidad</label>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Cantidad de productos a ingresar"
-              v-model="producto.cantidad"
+              placeholder="Ingrese la informacion de contacto"
+              v-model="producto.contacto"
             />
           </div>
         </div>
@@ -111,12 +102,12 @@ export default {
     return {
       baseURL: 'http://localhost:3000/api',
       producto: {
-        name: "llanta negra",
-        marca: "laquesea sa",
-        descripcion: "llanta para moto",
-        precioCompra: "300",
-        precioVenta: "400",
-        cantidad: "10",
+        name: "",
+        marca: "",
+        descripcion: "",
+        precioCompra: "",
+        precioVenta: "",
+        cantidad: "",
         imagen: "",
       },
       hotImage: {

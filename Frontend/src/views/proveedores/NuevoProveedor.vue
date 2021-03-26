@@ -103,11 +103,11 @@ export default {
     return {
       baseURL: 'http://localhost:3000/api',
       producto: {
-        nombre: "Cobaya",
-        apellido: "Martinez",
-        correo: "elreyracista745@gmail.com",
-        empresa: "Pelos SA",
-        contacto: "5455248",
+        nombre: "",
+        apellido: "",
+        correo: "",
+        empresa: "",
+        contacto: "",
         imagen: "",
       },
       hotImage: {

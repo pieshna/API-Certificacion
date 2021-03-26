@@ -20,7 +20,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el nombre del producto"
+              placeholder="Ingrese el nombre del proveedor"
               v-model="producto.nombre"
             />
           </div>
@@ -29,7 +29,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese la marca del producto"
+              placeholder="Ingrese el apellido del proveedor"
               v-model="producto.apellido"
             />
           </div>
@@ -40,7 +40,7 @@
             <input
               type="email"
               class="form-control"
-              placeholder="Ingrese la descripcion del producto"
+              placeholder="Ingrese el correo del proveedor"
               v-model="producto.correo"
             />
           </div>
@@ -61,7 +61,7 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el precio de compra"
+              placeholder="Ingrese el nombre de la empresa"
               v-model="producto.empresa"
             />
           </div>
@@ -70,11 +70,10 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Ingrese el precio de venta"
+              placeholder="Ingrese la informacion de contacto"
               v-model="producto.contacto"
             />
           </div>
-          
         </div>
         <br />
         <div class="row justify-content-between">
