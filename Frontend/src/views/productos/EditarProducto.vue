@@ -87,7 +87,8 @@
         <br />
         <div class="row justify-content-between">
           <div class="form-group col-md-2">
-            <button class="btn btn-block btn-danger">Cancelar</button>
+            <router-link to="/productos">
+            <button class="btn btn-block btn-danger">Cancelar</button></router-link>
           </div>
           <div class="form-group col-md-2 derecha">
             <button class="btn btn-block btn-success" type="submit">
