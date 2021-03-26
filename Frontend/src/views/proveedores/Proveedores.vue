@@ -48,7 +48,7 @@ export default {
   data(){
     return{ 
       repuestos: [],
-      baseURL: 'http://localhost:3000/api',
+      baseURL: 'https://backend-pieshna.herokuapp.com/api',
       page: 1,
       perPage: 10,
       pages: []

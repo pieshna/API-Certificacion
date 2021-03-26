@@ -15,7 +15,7 @@ export default createStore({
     async login({commit},usuario){
       //console.log(usuario)
       try {
-        const resDB = await axios.post('http://localhost:3000/api/user/login',usuario)
+        const resDB = await axios.post('https://backend-pieshna.herokuapp.com/api/user/login',usuario)
         //console.log('token',resDB.data.token)
 
         commit('setToken',resDB.data.token)
