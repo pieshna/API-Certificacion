@@ -98,7 +98,7 @@ export default {
   name: "EditarProveedor",
   data() {
     return {
-      baseURL: 'http://localhost:3000/api',
+      baseURL: 'https://backend-pieshna.herokuapp.com/api',
       producto: {
         nombre: "",
         apellido: "",

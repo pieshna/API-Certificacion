@@ -100,7 +100,7 @@ export default {
   name: "NuevoProducto",
   data() {
     return {
-      baseURL: 'http://localhost:3000/api',
+      baseURL: 'https://backend-pieshna.herokuapp.com/api',
       producto: {
         name: "",
         marca: "",
