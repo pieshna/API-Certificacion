@@ -53,9 +53,9 @@ app.post('/api/imagen',upload.single('img'),(req,res,next)=>{
     }
       res.send(file)
 })
-app.use(express.static(path.join(__dirname, '../backend/dist/')));
+app.use(express.static(path.join(__dirname, 'dist/')));
 app.get('/', (req,res) => {
-    res.sendFile(path.join(__dirname, '../backend/dist/index.html'));
+    res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
 
 // Middleware para Vue.js router modo history esto va solo si ponemos el frontend en el mismo servidor que el backend
