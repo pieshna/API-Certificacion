@@ -30,9 +30,10 @@ mongoose.connect(uri,
 // import routes
 const authRoutes = require('./routes/auth.routes');
 const logued = require('./routes/dashboard.routes');
-const productRoutes=require('./routes/productos.routes')
-const proveedoresRoutes=require('./routes/proveedores.routes')
-const genFaker = require('./routes/faker.routes')
+const productRoutes=require('./routes/productos.routes');
+const proveedoresRoutes=require('./routes/proveedores.routes');
+const genFaker = require('./routes/faker.routes');
+const compraRoutes=require('./routes/compra.routes');
 
 //import controller
 const validarToken= require('./controller/validate-token')
@@ -40,7 +41,8 @@ const upload=require('./controller/save-image')
 
 // route middlewares
 app.use('/api/faker', genFaker)
-app.use('/api/user', authRoutes);
+app.use('/api/user',validarToken, authRoutes);
+app.use('/api/compra',validarToken, compraRoutes);
 app.use('/api/product',validarToken, productRoutes);
 app.use('/api/proveedor',validarToken, proveedoresRoutes);
 app.use('/api/',validarToken, logued);
