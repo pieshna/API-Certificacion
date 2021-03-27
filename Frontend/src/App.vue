@@ -24,6 +24,7 @@
         id="navbarSupportedContent"
       >
         <ul class="navbar-nav ">
+          <li><router-link class="nav-link" to="/compras">Compras</router-link></li>
           <li v-if="token != null" class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"

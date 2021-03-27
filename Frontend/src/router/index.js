@@ -75,6 +75,11 @@ const routes = [
     props:true
   },
   {
+    path: '/compras',
+    name: 'compras',
+    component: ()=>import('../views/compras/Comprar.vue')
+  },
+  {
     path: '/login',
     name: 'Login',
     component: ()=>import('../views/usuarios/login.vue')
