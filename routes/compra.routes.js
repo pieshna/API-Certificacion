@@ -3,7 +3,14 @@ const Joi=require('@hapi/joi');
 const { ObjectID } =require('mongodb');
 const { now } = require('mongoose');
 const Compra=require('../models/Compra')
+const Proveedor=require('../models/Proveedor')
 
+router.get('/', async (req,res)=> {
+    const verCompra = await Compra.find({});
+    const verProveedor = await Proveedor.find({});
+    const result=[verCompra,verProveedor];
+    res.json(result);
+})
 
 //Crar compra
 router.post('/', async (req,res)=>{

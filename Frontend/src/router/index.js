@@ -80,6 +80,11 @@ const routes = [
     component: ()=>import('../views/compras/Comprar.vue')
   },
   {
+    path: '/compras/ver',
+    name: 'VerCompras',
+    component: ()=>import('../views/compras/VerCompras.vue')
+  },
+  {
     path: '/ventas',
     name: 'ventas',
     component: ()=>import('../views/compras/Ventas.vue')
