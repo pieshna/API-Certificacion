@@ -37,19 +37,10 @@
             <p>Cantidad: {{ repuesto.cantidad }}</p>
             <p>Precio: {{ repuesto.precioVenta }}</p>
             <p>Precio de Compra: {{ repuesto.precioCompra }}</p>
-            <p>Editado en: {{ repuesto.edited }}</p>
+            <p>Proveedor: {{ repuesto.proveedor }}</p>
+            <p>Hecha en: {{ repuesto.edited }}</p>
             <!--<button >Detalles</button><br><br>-->
-            <button
-              class="btn btn-warning separar"
-              @click="eliminarItem(repuesto._id)"
-            >
-              Borrar
-            </button>
-            <router-link
-              class="btn btn-success"
-              v-bind:to="'/productos/edit/' + repuesto._id"
-              >editar</router-link
-            >
+            
           </div>
         </div>
       </div>
@@ -120,7 +111,28 @@ export default {
           },
         })
         .then((response) => {
-          this.repuestos = response.data;
+          
+          let elementos=[],arrayAux=response.data[0],proveedores=[],arrarProv=response.data[1]
+          for (let i = 0; i < arrayAux.length; i++) {
+            for (let a = 0; a < arrarProv.length; a++) {
+              if (arrayAux[i].proveedor==arrarProv[a]._id) {
+                proveedores.push(arrarProv[a].nombre)
+              }
+              
+            }
+            let item={
+              name:arrayAux[i].name,
+              descripcion:arrayAux[i].descripcion,
+              marca:arrayAux[i].marca,
+              cantidad:arrayAux[i].tempCantidad,
+              precioCompra:arrayAux[i].precioCompra,
+              proveedor:proveedores[i],
+              imagen:arrayAux[i].imagen,
+              edited:arrayAux[i].edited
+            }
+            elementos.push(item)
+          }
+          this.repuestos=elementos
           this.auxRepuestos = this.repuestos;
           console.log(response.data);
         })
