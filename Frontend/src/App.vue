@@ -43,7 +43,7 @@
                 >
               </li>
               <li>
-                <router-link class="nav-link" to="/compras">Compras</router-link>
+                <router-link class="dropdown-item" to="/compras">Compras</router-link>
               </li>
             </ul>
           </li>
