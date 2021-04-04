@@ -80,6 +80,11 @@ const routes = [
     component: ()=>import('../views/compras/Comprar.vue')
   },
   {
+    path: '/ventas',
+    name: 'ventas',
+    component: ()=>import('../views/compras/Ventas.vue')
+  },
+  {
     path: '/login',
     name: 'Login',
     component: ()=>import('../views/usuarios/login.vue')
