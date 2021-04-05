@@ -7,7 +7,7 @@
         <input
           type="text"
           class="form-control"
-          placeholder="Bususcar repuesto"
+          placeholder="Buscar repuesto"
           v-model="busqueda.item"
           @keyup="buscarItem"
         />
@@ -35,12 +35,11 @@
             <p>Descripcion: {{ repuesto.descripcion }}</p>
             <p>Marca: {{ repuesto.marca }}</p>
             <p>Cantidad: {{ repuesto.cantidad }}</p>
-            <p>Precio: {{ repuesto.precioVenta }}</p>
             <p>Precio de Compra: {{ repuesto.precioCompra }}</p>
             <p>Proveedor: {{ repuesto.proveedor }}</p>
             <p>Hecha en: {{ repuesto.edited }}</p>
             <!--<button >Detalles</button><br><br>-->
-            
+            <button class="btn btn-success" @click="descargar(repuesto.edited)">Descargar</button>
           </div>
         </div>
       </div>
@@ -82,6 +81,8 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable"
 export default {
   name: "VerCompras",
   data() {
@@ -196,6 +197,34 @@ export default {
         this.repuestos = this.auxRepuestos;
       }
     },
+    
+    descargar(id){
+      var elemento
+      for (let i = 0; i < this.repuestos.length; i++) {
+        if(this.repuestos[i].edited==id){
+          elemento = this.repuestos[i];
+        }
+      }
+      let fecha=id.split('T');
+      let format=fecha[0].split('-')
+      let nuevafecha=`${format[2]}-${format[1]}-${format[0]}`
+      
+      let doc = new jsPDF();
+      doc.text('comprobante de compra',10,30);
+      doc.text(`Fecha: ${nuevafecha}`,10,40)
+      doc.text(`Proveedor: ${elemento.proveedor}`,10,50)
+      doc.line(0,55,400,55);
+      autoTable(doc,{
+        head:[['nombre','descripcion','marca','cantidad','precio de compra']],
+        margin:{top:60},
+        body:[
+          [elemento.name,elemento.descripcion,elemento.marca,elemento.cantidad,elemento.precioCompra]
+        ]
+      })
+      doc.save(`Compra-${nuevafecha}-${fecha[1]}.pdf`);
+
+      console.log('valor',elemento);
+    }
   },
   computed: {
     ...mapState(["token"]),
