@@ -16,17 +16,18 @@ router.get('/', async (req,res)=> {
 router.post('/', async (req,res)=>{
     //registramos
     const compra=new Compra({
-        name:req.body.name,
-        marca:req.body.marca,
-        descripcion:req.body.descripcion,
-        precioCompra:req.body.precioCompra,
-        precioVenta:req.body.precioVenta,
-        cantidad:req.body.cantidad,
-        imagen:req.body.imagen,
-        tempCantidad:req.body.tempCantidad,
-        newCantidad:req.body.newCantidad,
-        proveedor:req.body.proveedor
+        name:req.body.name.toString(),
+        marca:req.body.marca.toString(),
+        descripcion:req.body.descripcion.toString(),
+        precioCompra:req.body.precioCompra.toString(),
+        precioVenta:req.body.precioVenta.toString(),
+        cantidad:req.body.cantidad.toString(),
+        imagen:req.body.imagen.toString(),
+        tempCantidad:req.body.tempCantidad.toString(),
+        newCantidad:req.body.newCantidad.toString(),
+        proveedor:req.body.proveedor.toString()
     })
+    console.log('compra',compra);
     try {
         const CompraDB = await compra.save();
         console.log(CompraDB);
