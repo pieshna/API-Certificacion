@@ -30,7 +30,7 @@
         <div class="card">
           <img v-bind:src="repuesto.imagen" class="card-img-top" />
           <div class="card-body">
-            <h5>{{ repuesto.name }}</h5>
+            <h5>{{ repuesto.proveedor }}-{{repuesto.edited}}</h5>
 
             <p>Descripcion: {{ repuesto.descripcion }}</p>
             <p>Marca: {{ repuesto.marca }}</p>
@@ -112,11 +112,13 @@ export default {
           },
         })
         .then((response) => {
-          
+          console.log('respuesta axios',response.data);
           let elementos=[],arrayAux=response.data[0],proveedores=[],arrarProv=response.data[1]
           for (let i = 0; i < arrayAux.length; i++) {
+            let proveedorId=arrayAux[i].proveedor.split(',')
+            //console.log('idProv',proveedorId);
             for (let a = 0; a < arrarProv.length; a++) {
-              if (arrayAux[i].proveedor==arrarProv[a]._id) {
+              if (proveedorId[0]==arrarProv[a]._id) {
                 proveedores.push(arrarProv[a].nombre)
               }
               
@@ -209,21 +211,29 @@ export default {
       let format=fecha[0].split('-')
       let nuevafecha=`${format[2]}-${format[1]}-${format[0]}`
       
+      let body=[]
+      let sname=elemento.name.split(',')
+      let sdesc=elemento.descripcion.split(',')
+      let smarca=elemento.marca.split(',')
+      let scantidad=elemento.cantidad.split(',')
+      let spc=elemento.precioCompra.split(',')
+      for (let i = 0; i < sname.length; i++) {
+        body.push([sname[i],sdesc[i],smarca[i],scantidad[i],spc[i],parseInt(scantidad[i],10)*parseInt(spc[i],10)])
+        
+      }
+      console.log('body:',body);
+
       let doc = new jsPDF();
       doc.text('comprobante de compra',10,30);
       doc.text(`Fecha: ${nuevafecha}`,10,40)
       doc.text(`Proveedor: ${elemento.proveedor}`,10,50)
       doc.line(0,55,400,55);
       autoTable(doc,{
-        head:[['nombre','descripcion','marca','cantidad','precio de compra']],
+        head:[['nombre','descripcion','marca','cantidad','precio/unidad','total']],
         margin:{top:60},
-        body:[
-          [elemento.name,elemento.descripcion,elemento.marca,elemento.cantidad,elemento.precioCompra]
-        ]
+        body
       })
       doc.save(`Compra-${nuevafecha}-${fecha[1]}.pdf`);
-
-      console.log('valor',elemento);
     }
   },
   computed: {

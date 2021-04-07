@@ -4,7 +4,7 @@
     <h1>Comprar Producto</h1>
     <hr />
     <br />
-    <form @submit.prevent="enviar()" enctype="multipart/form-data">
+    <form @submit.prevent="" enctype="multipart/form-data">
       <div class="row justify-content-center">
         <img :src="tempProducto.imagen" v-if="tempProducto.imagen!=null" />
         <br />
@@ -52,6 +52,13 @@
             <label>Descripcion</label>
             <textarea class="form-control" v-model="tempProducto.descripcion" rows="3" disabled></textarea>
           </div>
+          <div class="form-group col-md-6" v-if="carrito[0]!=null">
+            <label>Productos a Comprar</label>
+            <ul><li v-for="carro in carrito" v-bind:key="carro._id">{{carro.name}}-{{carro.tempCantidad}}</li></ul>
+          </div>
+          </div>
+        <div class="row">
+
           <div class="form-group col-md-3">
             <label>Cantidad a comprar</label>
             <input
@@ -71,8 +78,6 @@
               v-model="tempProducto.newCantidad" disabled
             />
           </div>
-        </div>
-        <div class="row">
           <div class="form-group col-md-6">
             <label>Proveedor</label>
             <select class="form-select" v-model="proveedor._id" @change="ponerProveedor">
@@ -97,8 +102,13 @@
               </button></router-link
             >
           </div>
+          <div class="form-group col-md-2">
+              <button class="btn btn-block btn-primary" @click="mostrar">
+                +
+              </button>
+          </div>
           <div class="form-group col-md-2 derecha">
-            <button class="btn btn-block btn-success" type="submit">
+            <button class="btn btn-block btn-success" @click="enviar">
               Agregar
             </button>
           </div>
@@ -138,6 +148,7 @@ export default {
         newCantidad:"",
         proveedor:""
       },
+      carrito:[],
       proveedor: {},
       hotImage: {
         urlImagen: null,
@@ -180,45 +191,74 @@ export default {
         console.log(error);
       }
     },
-    
+    mostrar(){
+      console.log('mostrando');
+      this.carrito.push(this.tempProducto)
+      console.log('carrito:',this.carrito);
+    },
     async enviar() {
       try {
-        const productoAEnviar={
-          name: this.tempProducto.name,
-        marca: this.tempProducto.marca,
-        descripcion: this.tempProducto.descripcion,
-        precioCompra: this.tempProducto.precioCompra,
-        precioVenta: this.tempProducto.precioVenta,
-        cantidad: this.tempProducto.newCantidad.toString(),
-        imagen: this.tempProducto.imagen,
-        }
-        console.log(productoAEnviar);
-        const res = await axios
-          .put(`${this.baseURL}/product/${this.tempProducto._id}`, productoAEnviar, {
+        let name,marca,descripcion,precioCompra,precioVenta,cantidad,imagen
+        for (let i = 0; i < this.carrito.length; i++) {
+          name=this.carrito[i].name;
+          marca=this.carrito[i].marca;
+          descripcion=this.carrito[i].descripcion;
+          precioCompra=this.carrito[i].precioCompra;
+          precioVenta=this.carrito[i].precioVenta;
+          cantidad=this.carrito[i].newCantidad.toString();
+          imagen=this.carrito[i].imagen;
+          let res = await axios
+          .put(`${this.baseURL}/product/${this.carrito[i]._id}`, {
+            name,marca,descripcion,precioCompra,precioVenta,cantidad,imagen,
+          }, {
             headers: {
               "auth-token": this.token,
             },
           })
           .then((response) => {
             console.log(response.data);
-            this.generarCompra();
-            this.$router.push("/");
+            
+              
+            
           })
           .catch((error) => {
             console.log(error);
           });
         console.log(res);
+        }
+        console.log('generamoscompra');
+              this.generarCompra()
       } catch (error) {
         console.log(error);
       }
     },
     async generarCompra() {
+      let name=[],marca=[],descripcion=[],precioCompra=[],precioVenta=[],cantidad=[],imagen=[],tempCantidad=[],newCantidad=[],proveedor=[]
+      for (let i = 0; i < this.carrito.length; i++) {
+          name.push(this.carrito[i].name);
+          marca.push(this.carrito[i].marca);
+          descripcion.push(this.carrito[i].descripcion);
+          precioCompra.push(this.carrito[i].precioCompra);
+          precioVenta.push(this.carrito[i].precioVenta);
+          cantidad.push(this.carrito[i].newCantidad.toString());
+          imagen.push(this.carrito[i].imagen);
+          tempCantidad.push(this.carrito[i].tempCantidad);
+          newCantidad.push(this.carrito[i].newCantidad);
+          proveedor.push(this.carrito[i].proveedor);
+      }
       try {
+        console.log('enviamos a backend',{
+          name,marca,descripcion,precioCompra,precioVenta,cantidad,imagen,tempCantidad,newCantidad,proveedor,
+        });
         const res = await axios
-          .post(`${this.baseURL}/compra/`, this.tempProducto, {
+          .post(`${this.baseURL}/compra/`, {
+            name,marca,descripcion,precioCompra,precioVenta,cantidad,imagen,tempCantidad,newCantidad,proveedor,
+          }, {
             headers: {
               "auth-token": this.token,
             },
+          }).then((response) => {
+            this.$router.push("/");
           })
           .catch((error) => {
             console.log(error);
@@ -234,6 +274,7 @@ export default {
             return item._id
               .includes(this.producto._id);
           });
+          
           this.tempProducto=valor[0]
         }, 300);
     },
@@ -243,7 +284,10 @@ export default {
             return item._id
               .includes(this.proveedor._id);
           });
-          this.tempProducto.proveedor=valor[0]._id
+          for (let i = 0; i < this.carrito.length; i++) {
+            this.carrito[i].proveedor=valor[0]._id;
+            
+          }
       console.log('proveedor actualizado', this.tempProducto.proveedor);
         }, 300);
     },
